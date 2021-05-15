@@ -2,10 +2,10 @@
 -- migrate up
 
 -- schema
-CREATE SCHEMA IF NOT EXISTS "profile";
+CREATE SCHEMA IF NOT EXISTS "scheduler";
 
 -- functions
-CREATE OR REPLACE FUNCTION "profile".function_updated_at()
+CREATE OR REPLACE FUNCTION "scheduler".function_updated_at()
   RETURNS TRIGGER AS $$
   BEGIN
    NEW.updated_at = now();
@@ -14,7 +14,7 @@ CREATE OR REPLACE FUNCTION "profile".function_updated_at()
   $$ LANGUAGE 'plpgsql';
 
 -- sections
-CREATE TABLE "profile"."section" (
+CREATE TABLE "scheduler"."section" (
 	id_section 		    TEXT PRIMARY KEY,
 	"key"               TEXT NOT NULL UNIQUE,
 	"name"    		    TEXT NOT NULL,
@@ -27,7 +27,7 @@ CREATE TABLE "profile"."section" (
 
 
 -- content type
-CREATE TABLE "profile"."content_type" (
+CREATE TABLE "scheduler"."content_type" (
     id_content_type 		    TEXT PRIMARY KEY,
     "key"                       TEXT NOT NULL UNIQUE,
 	"name"                      TEXT NOT NULL,
@@ -37,11 +37,11 @@ CREATE TABLE "profile"."content_type" (
 );
 
 -- section contents
-CREATE TABLE "profile"."content" (
+CREATE TABLE "scheduler"."content" (
     id_content 		            TEXT PRIMARY KEY,
     "key"                       TEXT NOT NULL UNIQUE,
-	fk_section                  TEXT NOT NULL REFERENCES "profile"."section" (id_section),
-	fk_content_type             TEXT NOT NULL REFERENCES "profile"."content_type" (id_content_type),
+	fk_section                  TEXT NOT NULL REFERENCES "scheduler"."section" (id_section),
+	fk_content_type             TEXT NOT NULL REFERENCES "scheduler"."content_type" (id_content_type),
 	"content"                   JSONB NOT NULL,
     position                    INTEGER NOT NULL,
 	"active"			        BOOLEAN DEFAULT TRUE NOT NULL,
@@ -52,10 +52,10 @@ CREATE TABLE "profile"."content" (
 
 -- triggers
 CREATE TRIGGER trigger_section_updated_at BEFORE UPDATE
-  ON "profile"."section" FOR EACH ROW EXECUTE PROCEDURE "profile".function_updated_at();
+  ON "scheduler"."section" FOR EACH ROW EXECUTE PROCEDURE "scheduler".function_updated_at();
 
 CREATE TRIGGER trigger_content_updated_at BEFORE UPDATE
-  ON "profile"."content" FOR EACH ROW EXECUTE PROCEDURE "profile".function_updated_at();
+  ON "scheduler"."content" FOR EACH ROW EXECUTE PROCEDURE "scheduler".function_updated_at();
 
 
 
@@ -65,15 +65,15 @@ CREATE TRIGGER trigger_content_updated_at BEFORE UPDATE
 -- migrate down
 
 -- triggers
-DROP TRIGGER trigger_section_updated_at ON profile."section";
-DROP TRIGGER trigger_content_updated_at ON profile."content";
+DROP TRIGGER trigger_section_updated_at ON scheduler."section";
+DROP TRIGGER trigger_content_updated_at ON scheduler."content";
 
 -- tables
-DROP TABLE "profile"."section";
-DROP TABLE "profile"."content";
+DROP TABLE "scheduler"."section";
+DROP TABLE "scheduler"."content";
 
 -- functions
-DROP FUNCTION "profile".function_updated_at;
+DROP FUNCTION "scheduler".function_updated_at;
 
 -- schema
-DROP SCHEMA "profile";
+DROP SCHEMA "scheduler";
