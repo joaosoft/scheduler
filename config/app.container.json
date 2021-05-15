@@ -1,0 +1,32 @@
+{
+  "scheduler": {
+    "host": "localhost:8002",
+    "dbr": {
+      "db": {
+        "driver": "postgres",
+        "datasource": "postgres://user:password@localhost:7000/postgres?sslmode=disable&search_path=profile"
+      }
+    },
+    "log": {
+      "level": "info"
+    },
+    "migration": {
+      "path": {
+        "database": "schema/db/postgres"
+      },
+      "db": {
+        "schema": "profile",
+        "driver": "postgres",
+        "datasource": "postgres://user:password@localhost:7000/postgres?sslmode=disable&search_path=profile"
+      },
+      "log": {
+        "level": "info"
+      }
+    }
+  },
+  "manager": {
+    "log": {
+      "level": "info"
+    }
+  }
+}
