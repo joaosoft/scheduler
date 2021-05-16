@@ -2,7 +2,6 @@ package scheduler
 
 import (
 	logger "github.com/joaosoft/logger"
-	"github.com/joaosoft/manager"
 )
 
 // SchedulerOption ...
@@ -26,7 +25,6 @@ func WithConfiguration(config *SchedulerConfig) SchedulerOption {
 func WithLogger(logger logger.ILogger) SchedulerOption {
 	return func(s *Scheduler) {
 		s.logger = logger
-		s.isLogExternal = true
 	}
 }
 
@@ -34,12 +32,5 @@ func WithLogger(logger logger.ILogger) SchedulerOption {
 func WithLogLevel(level logger.Level) SchedulerOption {
 	return func(s *Scheduler) {
 		s.logger.SetLevel(level)
-	}
-}
-
-// WithManager ...
-func WithManager(mgr *manager.Manager) SchedulerOption {
-	return func(s *Scheduler) {
-		s.pm = mgr
 	}
 }

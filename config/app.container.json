@@ -4,7 +4,7 @@
     "dbr": {
       "db": {
         "driver": "postgres",
-        "datasource": "postgres://user:password@localhost:7000/postgres?sslmode=disable&search_path=scheduler"
+        "datasource": "postgres://user:password@localhost:7654/postgres?sslmode=disable&search_path=scheduler"
       }
     },
     "log": {
@@ -17,7 +17,7 @@
       "db": {
         "schema": "scheduler",
         "driver": "postgres",
-        "datasource": "postgres://user:password@localhost:7000/postgres?sslmode=disable&search_path=scheduler"
+        "datasource": "postgres://user:password@localhost:7654/postgres?sslmode=disable&search_path=scheduler"
       },
       "log": {
         "level": "info"

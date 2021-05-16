@@ -10,12 +10,12 @@ services:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: postgres
     ports:
-      - 7000:5432
+      - 7654:5432
     volumes:
       - "$HOME/docker/home/postgres:/var/lib/postgresql/data"
       - "$HOME/docker/home/log:/var/log/postgres"
-      - "./examples/config/postgres/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql"
-      - "./examples/config/postgres/postgresql.conf:/postgresql.conf"
+      - "./config/db/postgres/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql"
+      - "./config/db/postgres/postgresql.conf:/postgresql.conf"
     networks:
       default:
         aliases:

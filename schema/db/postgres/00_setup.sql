@@ -29,7 +29,7 @@ CREATE TABLE scheduler.country (
     phone_prefix varchar(20) NOT NULL DEFAULT '',
     fk_continent int4 NOT NULL REFERENCES scheduler.continent(id_continent),
     fk_region int4 NULL REFERENCES scheduler.region(id_region),
-    fk_timezone int4 NULL REFERENCES scheduler.timezone(id_timezone),
+    fk_timezone int4 NULL,
     is_european_union bool NOT NULL DEFAULT false,
     lat numeric(14,11) NOT NULL DEFAULT 0,
     long numeric(14,11) NOT NULL DEFAULT 0
@@ -51,6 +51,17 @@ CREATE TABLE scheduler.timezone (
 
 CREATE INDEX ON scheduler.timezone (fk_country);
 CREATE INDEX ON scheduler.timezone (name);
+
+-- schedule_status
+CREATE TABLE scheduler.schedule_status (
+    id_schedule_status serial NOT NULL PRIMARY KEY,
+    "name" varchar(50) NOT NULL,
+    "key" varchar(50) NOT NULL UNIQUE,
+    visible bool NOT NULL DEFAULT true,
+    active bool NOT NULL DEFAULT true
+);
+
+CREATE INDEX ON scheduler.schedule_status (key, active);
 
 -- schedule
 CREATE TABLE scheduler.schedule (
@@ -79,17 +90,6 @@ CREATE INDEX ON scheduler.schedule (external_id);
 CREATE INDEX ON scheduler.schedule (fk_schedule_status);
 CREATE INDEX ON scheduler.schedule (fk_previous_schedule_status);
 
--- schedule_status
-CREATE TABLE scheduler.schedule_status (
-    id_schedule_status serial NOT NULL PRIMARY KEY,
-    "name" varchar(50) NOT NULL,
-    "key" varchar(50) NOT NULL UNIQUE,
-    visible bool NOT NULL DEFAULT true,
-    active bool NOT NULL DEFAULT true
-);
-
-CREATE INDEX ON scheduler.schedule_status (key, active);
-
 -- schedule_time_slot
 CREATE TABLE scheduler.schedule_time_slot (
     fk_schedule int4 NOT NULL REFERENCES scheduler.schedule(id_schedule),
@@ -108,11 +108,7 @@ CREATE INDEX ON scheduler.schedule_time_slot ("time", active, "position");
 
 
 
-
 -- migrate down
-
--- schema
-DROP SCHEMA "scheduler";
 
 -- schedule_time_slot
 DROP TABLE scheduler.schedule_time_slot;
@@ -134,3 +130,6 @@ DROP TABLE scheduler.region;
 
 -- continent
 DROP TABLE scheduler.continent;
+
+-- schema
+DROP SCHEMA "scheduler";
