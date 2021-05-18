@@ -56,6 +56,11 @@ func NewScheduler(options ...SchedulerOption) (*Scheduler, error) {
 
 	ns := service.web.AddNamespace("/api/v1")
 
+	// user
+	if err = routes.RegisterUserRoutes(ns, service.logger, service.config.Dbr); err != nil {
+		return nil, err
+	}
+
 	// timezone
 	if err = routes.RegisterTimezoneRoutes(ns, service.logger, service.config.Dbr); err != nil {
 		return nil, err

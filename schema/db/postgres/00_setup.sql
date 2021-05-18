@@ -111,11 +111,12 @@ CREATE TABLE scheduler.schedule_time_slot (
 CREATE INDEX ON scheduler.schedule_time_slot (fk_schedule);
 CREATE INDEX ON scheduler.schedule_time_slot ("time", active, "position");
 
--- user_timezone
-CREATE TABLE scheduler.user_timezone (
+-- user
+CREATE TABLE scheduler.user (
     fk_user int4 NOT NULL UNIQUE,
     fk_timezone int4 NOT NULL REFERENCES scheduler.timezone(id_timezone),
     fk_country int4 NOT NULL REFERENCES scheduler.country(id_country),
+    active bool NOT NULL DEFAULT true
 );
 
 

@@ -17,14 +17,17 @@ func NewTimezoneModel(logger logger.ILogger, config *dbr.DbrConfig) (*TimezoneMo
 	}
 
 	return &TimezoneModel{
-		logger:  logger,
-		db: db,
+		logger: logger,
+		db:     db,
 	}, nil
 }
 
 func (m *TimezoneModel) ListTimezone() (timezoneList TimezoneList, err error) {
 	_, err = m.db.
-		Select([]interface{}{"t.id_timezone", "t.name"}...).
+		Select([]interface{}{
+			"t.id_timezone",
+			"t.name",
+		}...).
 		From(dbr.As(schedulerTableTimezone, "t")).
 		Where("t.active").
 		Load(&timezoneList)
@@ -39,7 +42,10 @@ func (m *TimezoneModel) ListTimezone() (timezoneList TimezoneList, err error) {
 func (m *TimezoneModel) GetTimezone(param *GetTimezone) (timezone *Timezone, err error) {
 	var count int
 	count, err = m.db.
-		Select([]interface{}{"t.id_timezone", "t.name"}...).
+		Select([]interface{}{
+			"t.id_timezone",
+			"t.name",
+		}...).
 		From(dbr.As(schedulerTableTimezone, "t")).
 		Where("t.id_timezone = ?", param.Id).
 		Where("t.active").
@@ -52,7 +58,6 @@ func (m *TimezoneModel) GetTimezone(param *GetTimezone) (timezone *Timezone, err
 	if count == 0 {
 		return nil, ErrorNotFound
 	}
-
 
 	return timezone, err
 }

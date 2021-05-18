@@ -24,7 +24,13 @@ func NewScheduleModel(logger logger.ILogger, config *dbr.DbrConfig) (*ScheduleMo
 
 func (m *ScheduleModel) ListSchedule() (scheduleList ScheduleList, err error) {
 	_, err = m.db.
-		Select([]interface{}{"s.id_schedule", "s.subject", "s.description", "s.fk_timezone"}...).
+		Select([]interface{}{
+			"s.id_schedule",
+			"s.hashed_id",
+			"s.subject",
+			"s.description",
+			"s.fk_timezone",
+		}...).
 		From(dbr.As(schedulerTableSchedule, "s")).
 		Where("s.active").
 		Load(&scheduleList)
@@ -35,11 +41,16 @@ func (m *ScheduleModel) ListSchedule() (scheduleList ScheduleList, err error) {
 func (m *ScheduleModel) GetSchedule(param *GetSchedule) (schedule *Schedule, err error) {
 	var count int
 	count, err = m.db.
-		Select([]interface{}{"s.id_schedule", "s.subject", "s.description", "s.fk_timezone"}...).
+		Select([]interface{}{
+			"s.id_schedule",
+			"s.hashed_id",
+			"s.subject",
+			"s.description",
+			"s.fk_timezone",
+		}...).
 		From(dbr.As(schedulerTableSchedule, "s")).
 		Where("s.id_schedule = ?", param.Id).
 		Where("s.active").
-		OrderAsc("s.name").
 		Load(schedule)
 
 	if err != nil {
@@ -81,7 +92,13 @@ func (m *ScheduleModel) UpdateSchedule(param *UpdateSchedule) (schedule *Schedul
 	count, err = m.db.
 		Update(dbr.As(schedulerTableSchedule, "s")).
 		Record(param).
-		Return([]interface{}{"s.id_schedule", "s.subject", "s.description", "s.fk_timezone"}...).
+		Return([]interface{}{
+			"s.id_schedule",
+			"s.hashed_id",
+			"s.subject",
+			"s.description",
+			"s.fk_timezone",
+		}...).
 		Load(&schedule)
 
 	if err != nil {

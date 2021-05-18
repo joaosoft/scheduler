@@ -4,6 +4,35 @@ type GetTimezoneRequest struct {
 	Id string `json:"id" validate:"not-empty"`
 }
 
+type GetUserRequest struct {
+	Id string `json:"id" validate:"not-empty"`
+}
+
+type CreateUserRequest struct {
+	Body CreateUserBodyRequest `json:"body" validate:"not-empty"`
+}
+
+type CreateUserBodyRequest struct {
+	Id         int `json:"id" validate:"not-empty"`
+	IdCountry  int `json:"id_country" validate:"not-empty"`
+	IdTimezone int `json:"id_timezone" validate:"not-empty"`
+}
+
+type UpdateUserRequest struct {
+	Id   string                `json:"id" validate:"not-empty"`
+	Body UpdateUserBodyRequest `json:"body" validate:"not-empty"`
+}
+
+type UpdateUserBodyRequest struct {
+	Id         int `json:"id" validate:"not-empty"`
+	IdCountry  int `json:"id_country" validate:"not-empty"`
+	IdTimezone int `json:"id_timezone" validate:"not-empty"`
+}
+
+type DeleteUserRequest struct {
+	Id string `json:"id" validate:"not-empty"`
+}
+
 type GetScheduleRequest struct {
 	Id string `json:"id" validate:"not-empty"`
 }
@@ -13,9 +42,10 @@ type CreateScheduleRequest struct {
 }
 
 type CreateScheduleBodyRequest struct {
+	IdUser      int    `json:"id_user" validate:"not-empty"`
+	IdTimezone  int    `json:"id_timezone" validate:"not-empty"`
 	Subject     string `json:"subject" validate:"not-empty"`
 	Description string `json:"description"`
-	IdUser      int    `json:"id_user" validate:"not-empty"`
 }
 
 type UpdateScheduleRequest struct {
@@ -24,9 +54,10 @@ type UpdateScheduleRequest struct {
 }
 
 type UpdateScheduleBodyRequest struct {
+	IdUser      int    `json:"id_user" validate:"not-empty"`
+	IdTimezone  int    `json:"id_timezone" validate:"not-empty"`
 	Subject     string `json:"subject" validate:"not-empty"`
 	Description string `json:"description"`
-	IdTimezone  int    `json:"id_timezone" validate:"not-empty"`
 }
 
 type DeleteScheduleRequest struct {

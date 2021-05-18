@@ -1,9 +1,10 @@
 package routes
 
 import (
-	"github.com/joaosoft/dbr"
 	"scheduler/controllers"
 	"scheduler/models"
+
+	"github.com/joaosoft/dbr"
 
 	"github.com/joaosoft/logger"
 

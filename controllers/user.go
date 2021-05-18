@@ -3,33 +3,22 @@ package controllers
 import (
 	"scheduler/models"
 
-	uuid "github.com/satori/go.uuid"
-
 	"github.com/joaosoft/validator"
 	"github.com/joaosoft/web"
 )
 
-type ScheduleController struct {
-	model *models.ScheduleModel
+type UserController struct {
+	model *models.UserModel
 }
 
-func NewScheduleController(model *models.ScheduleModel) *ScheduleController {
-	return &ScheduleController{
+func NewUserController(model *models.UserModel) *UserController {
+	return &UserController{
 		model: model,
 	}
 }
 
-func (c *ScheduleController) ListSchedule(ctx *web.Context) error {
-	response, err := c.model.ListSchedule()
-	if err != nil {
-		return ctx.Response.JSON(web.StatusInternalServerError, err)
-	}
-
-	return ctx.Response.JSON(web.StatusOK, response)
-}
-
-func (c *ScheduleController) GetSchedule(ctx *web.Context) error {
-	request := &GetScheduleRequest{}
+func (c *UserController) GetUser(ctx *web.Context) error {
+	request := &GetUserRequest{}
 
 	if err := ctx.Request.BindUrlParams(&request); err != nil {
 		return ctx.Response.JSON(web.StatusBadRequest, err)
@@ -39,10 +28,10 @@ func (c *ScheduleController) GetSchedule(ctx *web.Context) error {
 		return ctx.Response.JSON(web.StatusBadRequest, errs)
 	}
 
-	param := &models.GetSchedule{
+	param := &models.GetUser{
 		Id: request.Id,
 	}
-	response, err := c.model.GetSchedule(param)
+	response, err := c.model.GetUser(param)
 	if err != nil {
 		return ctx.Response.JSON(web.StatusInternalServerError, err)
 	}
@@ -50,8 +39,8 @@ func (c *ScheduleController) GetSchedule(ctx *web.Context) error {
 	return ctx.Response.JSON(web.StatusOK, response)
 }
 
-func (c *ScheduleController) CreateSchedule(ctx *web.Context) error {
-	request := &CreateScheduleRequest{}
+func (c *UserController) CreateUser(ctx *web.Context) error {
+	request := &CreateUserRequest{}
 
 	if err := ctx.Request.BindUrlParams(&request); err != nil {
 		return ctx.Response.JSON(web.StatusBadRequest, err)
@@ -65,20 +54,12 @@ func (c *ScheduleController) CreateSchedule(ctx *web.Context) error {
 		return ctx.Response.JSON(web.StatusBadRequest, errs)
 	}
 
-	uid, err := uuid.NewV4()
-	if err != nil {
-		return err
+	param := &models.CreateUser{
+		Id:         request.Body.Id,
+		IdCountry:  request.Body.IdCountry,
+		IdTimezone: request.Body.IdTimezone,
 	}
-
-	param := &models.CreateSchedule{
-		HashedId:         uid.String(),
-		Subject:          request.Body.Subject,
-		Description:      request.Body.Description,
-		IdUser:           request.Body.IdUser,
-		IdTimezone:       request.Body.IdTimezone,
-		IdScheduleStatus: models.ScheduleStatusNewID,
-	}
-	response, err := c.model.CreateSchedule(param)
+	response, err := c.model.CreateUser(param)
 	if err != nil {
 		return ctx.Response.JSON(web.StatusInternalServerError, err)
 	}
@@ -86,8 +67,8 @@ func (c *ScheduleController) CreateSchedule(ctx *web.Context) error {
 	return ctx.Response.JSON(web.StatusCreated, response)
 }
 
-func (c *ScheduleController) UpdateSchedule(ctx *web.Context) error {
-	request := &UpdateScheduleRequest{}
+func (c *UserController) UpdateUser(ctx *web.Context) error {
+	request := &UpdateUserRequest{}
 
 	if err := ctx.Request.BindUrlParams(&request); err != nil {
 		return ctx.Response.JSON(web.StatusBadRequest, err)
@@ -97,12 +78,12 @@ func (c *ScheduleController) UpdateSchedule(ctx *web.Context) error {
 		return ctx.Response.JSON(web.StatusBadRequest, errs)
 	}
 
-	param := &models.UpdateSchedule{
-		Subject:     request.Body.Subject,
-		Description: request.Body.Description,
-		IdTimezone:  request.Body.IdTimezone,
+	param := &models.UpdateUser{
+		Id:         request.Body.Id,
+		IdCountry:  request.Body.IdCountry,
+		IdTimezone: request.Body.IdTimezone,
 	}
-	response, err := c.model.UpdateSchedule(param)
+	response, err := c.model.UpdateUser(param)
 	if err != nil {
 		return ctx.Response.JSON(web.StatusInternalServerError, err)
 	}
@@ -110,8 +91,8 @@ func (c *ScheduleController) UpdateSchedule(ctx *web.Context) error {
 	return ctx.Response.JSON(web.StatusOK, response)
 }
 
-func (c *ScheduleController) DeleteSchedule(ctx *web.Context) error {
-	request := &DeleteScheduleRequest{}
+func (c *UserController) DeleteUser(ctx *web.Context) error {
+	request := &DeleteUserRequest{}
 
 	if err := ctx.Request.BindUrlParams(&request); err != nil {
 		return ctx.Response.JSON(web.StatusBadRequest, err)
@@ -121,10 +102,10 @@ func (c *ScheduleController) DeleteSchedule(ctx *web.Context) error {
 		return ctx.Response.JSON(web.StatusBadRequest, errs)
 	}
 
-	param := &models.DeleteSchedule{
+	param := &models.DeleteUser{
 		Id: request.Id,
 	}
-	err := c.model.DeleteSchedule(param)
+	err := c.model.DeleteUser(param)
 	if err != nil {
 		return ctx.Response.JSON(web.StatusInternalServerError, err)
 	}
