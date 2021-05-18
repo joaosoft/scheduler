@@ -1,6 +1,8 @@
 package models
 
 import (
+	"time"
+
 	"github.com/joaosoft/dbr"
 	"github.com/joaosoft/logger"
 )
@@ -65,8 +67,15 @@ func (m *ScheduleModel) GetSchedule(param *GetSchedule) (schedule *Schedule, err
 }
 
 func (m *ScheduleModel) CreateSchedule(param *CreateSchedule) (schedule *Schedule, err error) {
+	var tx *dbr.Transaction
+	if tx, err = m.db.Begin(); err != nil {
+		return nil, err
+	}
+	defer tx.RollbackUnlessCommit()
+
+	now := time.Now()
 	schedule = &Schedule{}
-	_, err = m.db.
+	_, err = tx.
 		Insert().
 		Into(dbr.As(schedulerTableSchedule, "s")).
 		Record(param).
@@ -81,6 +90,45 @@ func (m *ScheduleModel) CreateSchedule(param *CreateSchedule) (schedule *Schedul
 		Load(schedule)
 
 	if err != nil {
+		return nil, err
+	}
+
+	builder := tx.
+		Insert().
+		Columns([]interface{}{
+			"fk_schedule",
+			"time",
+			"position",
+			"active",
+			"created_by",
+			"created_at",
+			"updated_by",
+			"updated_at",
+		}...).
+		Into(dbr.As(schedulerTableScheduleTimeSlot, "ts")).
+		Return([]interface{}{
+			"ts.fk_schedule",
+			"ts.time",
+		}...)
+
+	for idx, timeSlot := range param.TimeSlots {
+		schedule = &Schedule{}
+		builder.Values(
+			schedule.Id,
+			timeSlot,
+			idx+1,
+			param.IdUser,
+			now,
+			param.IdUser,
+			now,
+		)
+	}
+
+	if _, err = builder.Load(schedule); err != nil {
+		return nil, err
+	}
+
+	if err = tx.Commit(); err != nil {
 		return nil, err
 	}
 

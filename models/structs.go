@@ -1,5 +1,7 @@
 package models
 
+import "time"
+
 type GetTimezone struct {
 	Id string `json:"id"`
 }
@@ -35,12 +37,13 @@ type GetSchedule struct {
 }
 
 type CreateSchedule struct {
-	HashedId         string `json:"hashed_id" db.write:"hashed_id"`
-	Subject          string `json:"subject" db.write:"subject"`
-	Description      string `json:"description" db.write:"description"`
-	IdUser           int    `json:"id_user" db.write:"fk_user"`
-	IdTimezone       int    `json:"id_timezone" db.write:"fk_timezone"`
-	IdScheduleStatus int    `json:"id_schedule_status" db.write:"fk_schedule_status"`
+	HashedId         string      `json:"hashed_id" db.write:"hashed_id"`
+	Subject          string      `json:"subject" db.write:"subject"`
+	Description      string      `json:"description" db.write:"description"`
+	IdUser           int         `json:"id_user" db.write:"fk_user"`
+	IdTimezone       int         `json:"id_timezone" db.write:"fk_timezone"`
+	TimeSlots        []time.Time `json:"time_slots"`
+	IdScheduleStatus int         `json:"id_schedule_status" db.write:"fk_schedule_status"`
 }
 
 type UpdateSchedule struct {

@@ -114,6 +114,7 @@ CREATE INDEX ON scheduler.schedule_time_slot ("time", active, "position");
 -- user
 CREATE TABLE scheduler.user (
     fk_user int4 NOT NULL UNIQUE,
+    email text NOT NULL UNIQUE,
     fk_timezone int4 NOT NULL REFERENCES scheduler.timezone(id_timezone),
     fk_country int4 NOT NULL REFERENCES scheduler.country(id_country),
     active bool NOT NULL DEFAULT true
@@ -121,6 +122,9 @@ CREATE TABLE scheduler.user (
 
 
 -- migrate down
+
+-- user
+DROP TABLE scheduler.user;
 
 -- schedule_time_slot
 DROP TABLE scheduler.schedule_time_slot;

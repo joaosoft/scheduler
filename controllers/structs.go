@@ -1,5 +1,7 @@
 package controllers
 
+import "time"
+
 type GetTimezoneRequest struct {
 	Id string `json:"id" validate:"not-empty"`
 }
@@ -42,10 +44,11 @@ type CreateScheduleRequest struct {
 }
 
 type CreateScheduleBodyRequest struct {
-	IdUser      int    `json:"id_user" validate:"not-empty"`
-	IdTimezone  int    `json:"id_timezone" validate:"not-empty"`
-	Subject     string `json:"subject" validate:"not-empty"`
-	Description string `json:"description"`
+	IdUser      int         `json:"id_user" validate:"not-empty"`
+	IdTimezone  int         `json:"id_timezone" validate:"not-empty"`
+	Subject     string      `json:"subject" validate:"not-empty"`
+	Description string      `json:"description"`
+	TimeSlots   []time.Time `json:"time_slots"`
 }
 
 type UpdateScheduleRequest struct {

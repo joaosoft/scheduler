@@ -9,7 +9,8 @@ func format(schema, table string) string {
 }
 
 var (
-	schedulerTableUser     = format(schemaScheduler, "user")
-	schedulerTableTimezone = format(schemaScheduler, "timezone")
-	schedulerTableSchedule = format(schemaScheduler, "schedule")
+	schedulerTableUser             = format(schemaScheduler, "user")
+	schedulerTableTimezone         = format(schemaScheduler, "timezone")
+	schedulerTableSchedule         = format(schemaScheduler, "schedule")
+	schedulerTableScheduleTimeSlot = format(schemaScheduler, "schedule_time_slot")
 )

@@ -76,6 +76,7 @@ func (c *ScheduleController) CreateSchedule(ctx *web.Context) error {
 		Description:      request.Body.Description,
 		IdUser:           request.Body.IdUser,
 		IdTimezone:       request.Body.IdTimezone,
+		TimeSlots:        request.Body.TimeSlots,
 		IdScheduleStatus: models.ScheduleStatusNewID,
 	}
 	response, err := c.model.CreateSchedule(param)
