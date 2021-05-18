@@ -1,18 +1,17 @@
 package scheduler
 
 import (
+	"scheduler/routes"
+
 	"github.com/joaosoft/logger"
 	migration "github.com/joaosoft/migration/services"
 	"github.com/joaosoft/web"
-	"scheduler/controllers"
-	"scheduler/models"
-	"scheduler/routes"
 )
 
 type Scheduler struct {
-	web *web.Server
-	config        *SchedulerConfig
-	logger        logger.ILogger
+	web    *web.Server
+	config *SchedulerConfig
+	logger logger.ILogger
 }
 
 // NewScheduler ...
@@ -32,7 +31,9 @@ func NewScheduler(options ...SchedulerOption) (*Scheduler, error) {
 		service.logger.Reconfigure(logger.WithLevel(level))
 	} else {
 		config.Scheduler = &SchedulerConfig{
-			Host: defaultURL,
+			Server: &web.ServerConfig{
+				Address: defaultURL,
+			},
 		}
 	}
 
@@ -48,20 +49,20 @@ func NewScheduler(options ...SchedulerOption) (*Scheduler, error) {
 		return nil, err
 	}
 
-	storage, err := models.NewStoragePostgres(config.Scheduler.Dbr)
+	service.web, err = web.NewServer(web.WithServerConfiguration(service.config.Server))
 	if err != nil {
 		return nil, err
 	}
 
-	model := models.NewModel(service.logger, storage)
+	ns := service.web.AddNamespace("/api/v1")
 
-	controller := controllers.NewController(model)
-	service.web, err = web.NewServer()
-	if err != nil {
+	// timezone
+	if err = routes.RegisterTimezoneRoutes(ns, service.logger, service.config.Dbr); err != nil {
 		return nil, err
 	}
 
-	if err = routes.RegisterRoutes(service.web, controller); err != nil {
+	// schedule
+	if err = routes.RegisterScheduleRoutes(ns, service.logger, service.config.Dbr); err != nil {
 		return nil, err
 	}
 

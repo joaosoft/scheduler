@@ -1,6 +1,8 @@
 {
   "scheduler": {
-    "host": "localhost:8002",
+    "server": {
+      "address": ":8002"
+    },
     "dbr": {
       "db": {
         "driver": "postgres",

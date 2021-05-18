@@ -4,9 +4,9 @@ import (
 	"fmt"
 
 	"github.com/joaosoft/dbr"
-
 	"github.com/joaosoft/manager"
 	migration "github.com/joaosoft/migration/services"
+	"github.com/joaosoft/web"
 )
 
 // AppConfig ...
@@ -16,10 +16,10 @@ type AppConfig struct {
 
 // SchedulerConfig ...
 type SchedulerConfig struct {
-	Host              string                     `json:"host"`
-	Dbr               *dbr.DbrConfig             `json:"dbr"`
-	Migration         *migration.MigrationConfig `json:"migration"`
-	Log               struct {
+	Server    *web.ServerConfig          `json:"server"`
+	Dbr       *dbr.DbrConfig             `json:"dbr"`
+	Migration *migration.MigrationConfig `json:"migration"`
+	Log       struct {
 		Level string `json:"level"`
 	} `json:"log"`
 }

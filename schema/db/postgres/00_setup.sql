@@ -8,7 +8,8 @@ CREATE SCHEMA IF NOT EXISTS "scheduler";
 CREATE TABLE scheduler.continent (
     id_continent serial NOT NULL PRIMARY KEY,
     "name" varchar(100) NOT NULL DEFAULT '',
-    code varchar(2) NOT NULL UNIQUE
+    code varchar(2) NOT NULL UNIQUE,
+    active bool NOT NULL DEFAULT true
 );
 
 CREATE INDEX ON scheduler.continent (code);
@@ -16,7 +17,8 @@ CREATE INDEX ON scheduler.continent (code);
 -- region
 CREATE TABLE scheduler.region (
     id_region serial NOT NULL PRIMARY KEY,
-    "name" varchar(50) NOT NULL UNIQUE
+    "name" varchar(50) NOT NULL UNIQUE,
+    active bool NOT NULL DEFAULT true
 );
 
 CREATE INDEX ON scheduler.region (name);
@@ -32,7 +34,8 @@ CREATE TABLE scheduler.country (
     fk_timezone int4 NULL,
     is_european_union bool NOT NULL DEFAULT false,
     lat numeric(14,11) NOT NULL DEFAULT 0,
-    long numeric(14,11) NOT NULL DEFAULT 0
+    long numeric(14,11) NOT NULL DEFAULT 0,
+    active bool NOT NULL DEFAULT true
 );
 
 CREATE INDEX ON scheduler.country (code);
@@ -46,7 +49,8 @@ CREATE TABLE scheduler.timezone (
     "name" varchar(100) NOT NULL UNIQUE,
     fk_country int4 NOT NULL REFERENCES scheduler.country(id_country),
     "offset" varchar(10) NOT NULL,
-    offset_dst varchar(10) NOT NULL
+    offset_dst varchar(10) NOT NULL,
+    active bool NOT NULL DEFAULT true
 );
 
 CREATE INDEX ON scheduler.timezone (fk_country);
@@ -77,6 +81,7 @@ CREATE TABLE scheduler.schedule (
     fk_previous_schedule_status int4 NULL REFERENCES scheduler.schedule_status(id_schedule_status),
     status_updated_by int4 NOT NULL DEFAULT 1,
     status_updated_at timestamptz NOT NULL DEFAULT now(),
+    deleted_by INTEGER ARRAY NULL,
     updated_by int4 NOT NULL DEFAULT 1,
     updated_at timestamptz NOT NULL DEFAULT now(),
     created_by int4 NOT NULL DEFAULT 1,
@@ -106,6 +111,12 @@ CREATE TABLE scheduler.schedule_time_slot (
 CREATE INDEX ON scheduler.schedule_time_slot (fk_schedule);
 CREATE INDEX ON scheduler.schedule_time_slot ("time", active, "position");
 
+-- user_timezone
+CREATE TABLE scheduler.user_timezone (
+    fk_user int4 NOT NULL UNIQUE,
+    fk_timezone int4 NOT NULL REFERENCES scheduler.timezone(id_timezone),
+    fk_country int4 NOT NULL REFERENCES scheduler.country(id_country),
+);
 
 
 -- migrate down

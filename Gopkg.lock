@@ -121,11 +121,11 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:0267557b05ffc846a711ba9433d592354d1b349bfe1595f28eaaef123bdd8975"
+  digest = "1:bb4bd1357663f69271bb11908b63be45570db6071ab6c37b2683e885630cf971"
   name = "github.com/joaosoft/validator"
   packages = ["."]
   pruneopts = "UT"
-  revision = "7f0d9e6035073ab1953300380aee9c6f97295316"
+  revision = "a3ce5851caf8f0294e59337d3b32bc2c0af6ad56"
 
 [[projects]]
   branch = "master"
@@ -163,7 +163,7 @@
   version = "v0.3.0"
 
 [[projects]]
-  digest = "1:c4a7e9f8fb3fc5f70c5a330109abae477b49d2d8c7691f5e387ef96168e56a4d"
+  digest = "1:1a1915157e0aec5d117a09914c139735bf8ea0c0cd58b5796c9c88597b6d1741"
   name = "github.com/lib/pq"
   packages = [
     ".",
@@ -171,8 +171,8 @@
     "scram",
   ]
   pruneopts = "UT"
-  revision = "caa87158f59995a15e2057d80d586391f51333f2"
-  version = "v1.10.1"
+  revision = "2da6713d67f03911a05b1b6559adc85927fe076e"
+  version = "v1.10.2"
 
 [[projects]]
   digest = "1:03d538738f78db8960b276c8cc1b90f53809290831a8daea2ceeaeccccbc585a"

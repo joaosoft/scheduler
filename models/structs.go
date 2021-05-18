@@ -9,9 +9,11 @@ type GetSchedule struct {
 }
 
 type CreateSchedule struct {
-	Subject     string `json:"subject" db.write:"subject"`
-	Description string `json:"description" db.write:"description"`
-	IdTimezone  int    `json:"id_timezone" db.write:"fk_timezone"`
+	HashedId         string `json:"hashed_id" db.write:"hashed_id"`
+	Subject          string `json:"subject" db.write:"subject"`
+	Description      string `json:"description" db.write:"description"`
+	IdUser           int    `json:"id_user" db.write:"fk_user"`
+	IdScheduleStatus int    `json:"id_schedule_status" db.write:"fk_schedule_status"`
 }
 
 type UpdateSchedule struct {
@@ -37,5 +39,5 @@ type Schedule struct {
 	Id          string `json:"id" db.read:"id_schedule"`
 	Subject     string `json:"subject" db.read:"subject"`
 	Description string `json:"description" db.read:"description"`
-	IdTimezone  int    `json:"id_timezone" db.read:"fk_timezone"`
+	IdUser      int    `json:"id_user" db.read:"fk_user"`
 }
