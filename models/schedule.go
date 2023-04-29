@@ -77,15 +77,15 @@ func (m *ScheduleModel) CreateSchedule(param *CreateSchedule) (schedule *Schedul
 	schedule = &Schedule{}
 	_, err = tx.
 		Insert().
-		Into(dbr.As(schedulerTableSchedule, "s")).
+		Into(schedulerTableSchedule).
 		Record(param).
 		Return([]interface{}{
-			"s.id_schedule",
-			"s.hashed_id",
-			"s.subject",
-			"s.description",
-			"s.fk_user",
-			"s.fk_schedule_status",
+			"id_schedule",
+			"hashed_id",
+			"subject",
+			"description",
+			"fk_user",
+			"fk_schedule_status",
 		}...).
 		Load(schedule)
 

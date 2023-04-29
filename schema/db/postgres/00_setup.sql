@@ -74,6 +74,7 @@ CREATE TABLE scheduler.schedule (
     subject text NOT NULL,
     description text NOT NULL,
     fk_user text NOT NULL,
+    fk_timezone int4 NOT NULL REFERENCES scheduler.timezone(id_timezone),
     external_id text NULL,
     start_url text NULL,
     join_url text NULL,
@@ -113,8 +114,7 @@ CREATE INDEX ON scheduler.schedule_time_slot ("time", active, "position");
 
 -- user
 CREATE TABLE scheduler.user (
-    fk_user int4 NOT NULL UNIQUE,
-    email text NOT NULL UNIQUE,
+    fk_user text NOT NULL PRIMARY KEY,
     fk_timezone int4 NOT NULL REFERENCES scheduler.timezone(id_timezone),
     fk_country int4 NOT NULL REFERENCES scheduler.country(id_country),
     active bool NOT NULL DEFAULT true

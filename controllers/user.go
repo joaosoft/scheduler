@@ -74,12 +74,16 @@ func (c *UserController) UpdateUser(ctx *web.Context) error {
 		return ctx.Response.JSON(web.StatusBadRequest, err)
 	}
 
+	if err := ctx.Request.Bind(&request.Body); err != nil {
+		return ctx.Response.JSON(web.StatusBadRequest, err)
+	}
+
 	if errs := validator.Validate(request); len(errs) > 0 {
 		return ctx.Response.JSON(web.StatusBadRequest, errs)
 	}
 
 	param := &models.UpdateUser{
-		Id:         request.Body.Id,
+		Id:         request.Id,
 		IdCountry:  request.Body.IdCountry,
 		IdTimezone: request.Body.IdTimezone,
 	}

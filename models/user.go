@@ -23,16 +23,17 @@ func NewUserModel(logger logger.ILogger, config *dbr.DbrConfig) (*UserModel, err
 }
 
 func (m *UserModel) GetUser(param *GetUser) (user *User, err error) {
+	user = &User{}
 	var count int
 	count, err = m.db.
 		Select([]interface{}{
-			"u.fk_user",
-			"u.fk_country",
-			"u.fk_timezone",
+			"fk_user",
+			"fk_country",
+			"fk_timezone",
 		}...).
-		From(dbr.As(schedulerTableUser, "u")).
-		Where("u.fk_user = ?", param.Id).
-		Where("u.active").
+		From(schedulerTableUser).
+		Where("fk_user = ?", param.Id).
+		Where("active").
 		Load(user)
 
 	if err != nil {
@@ -50,12 +51,12 @@ func (m *UserModel) CreateUser(param *CreateUser) (user *User, err error) {
 	user = &User{}
 	_, err = m.db.
 		Insert().
-		Into(dbr.As(schedulerTableUser, "u")).
+		Into(schedulerTableUser).
 		Record(param).
 		Return([]interface{}{
-			"u.fk_user",
-			"u.fk_country",
-			"u.fk_timezone",
+			"fk_user",
+			"fk_country",
+			"fk_timezone",
 		}...).
 		Load(user)
 
@@ -69,12 +70,13 @@ func (m *UserModel) CreateUser(param *CreateUser) (user *User, err error) {
 func (m *UserModel) UpdateUser(param *UpdateUser) (user *User, err error) {
 	var count int
 	count, err = m.db.
-		Update(dbr.As(schedulerTableUser, "u")).
+		Update(schedulerTableUser).
 		Record(param).
+		Where("fk_user = ?", param.Id).
 		Return([]interface{}{
-			"u.fk_user",
-			"u.fk_country",
-			"u.fk_timezone",
+			"fk_user",
+			"fk_country",
+			"fk_timezone",
 		}...).
 		Load(&user)
 
@@ -90,19 +92,14 @@ func (m *UserModel) UpdateUser(param *UpdateUser) (user *User, err error) {
 }
 
 func (m *UserModel) DeleteUser(param *DeleteUser) (err error) {
-	var count int
 	_, err = m.db.
 		Delete().
-		From(dbr.As(schedulerTableUser, "u")).
+		From(schedulerTableUser).
 		Where("fk_user = ?", param.Id).
 		Exec()
 
 	if err != nil {
 		return err
-	}
-
-	if count == 0 {
-		return ErrorNotFound
 	}
 
 	return nil

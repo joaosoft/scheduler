@@ -15,9 +15,9 @@ type CreateUserRequest struct {
 }
 
 type CreateUserBodyRequest struct {
-	Id         int `json:"id" validate:"not-empty"`
-	IdCountry  int `json:"id_country" validate:"not-empty"`
-	IdTimezone int `json:"id_timezone" validate:"not-empty"`
+	Id         string `json:"id" validate:"not-empty"`
+	IdCountry  int    `json:"id_country" validate:"not-empty"`
+	IdTimezone int    `json:"id_timezone" validate:"not-empty"`
 }
 
 type UpdateUserRequest struct {
@@ -26,7 +26,6 @@ type UpdateUserRequest struct {
 }
 
 type UpdateUserBodyRequest struct {
-	Id         int `json:"id" validate:"not-empty"`
 	IdCountry  int `json:"id_country" validate:"not-empty"`
 	IdTimezone int `json:"id_timezone" validate:"not-empty"`
 }

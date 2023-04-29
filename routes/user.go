@@ -19,9 +19,10 @@ func RegisterUserRoutes(ns *web.Namespace, logger logger.ILogger, dbrConfig *dbr
 	controller := controllers.NewUserController(model)
 
 	err = ns.AddRoutes(
-		web.NewRoute(web.MethodGet, "/schedule/user/:id", controller.GetUser),
-		web.NewRoute(web.MethodPost, "/schedule/user", controller.CreateUser),
-		web.NewRoute(web.MethodPut, "/schedule/user/:id", controller.UpdateUser),
+		web.NewRoute(web.MethodGet, "/schedule/users/:id", controller.GetUser),
+		web.NewRoute(web.MethodPost, "/schedule/users", controller.CreateUser),
+		web.NewRoute(web.MethodPut, "/schedule/users/:id", controller.UpdateUser),
+		web.NewRoute(web.MethodDelete, "/schedule/users/:id", controller.DeleteUser),
 	)
 
 	return err
