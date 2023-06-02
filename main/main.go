@@ -1,7 +1,7 @@
 package main
 
 import (
-	"scheduler"
+	"github.com/joaosoft/scheduler"
 )
 
 func main() {
