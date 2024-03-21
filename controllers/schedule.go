@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"scheduler/models"
+	"github.com/joaosoft/scheduler/models"
 
 	uuid "github.com/satori/go.uuid"
 
@@ -65,10 +65,7 @@ func (c *ScheduleController) CreateSchedule(ctx *web.Context) error {
 		return ctx.Response.JSON(web.StatusBadRequest, errs)
 	}
 
-	uid, err := uuid.NewV4()
-	if err != nil {
-		return err
-	}
+	uid := uuid.NewV4()
 
 	param := &models.CreateSchedule{
 		HashedId:         uid.String(),

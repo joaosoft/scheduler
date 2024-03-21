@@ -1,8 +1,8 @@
 package routes
 
 import (
-	"scheduler/controllers"
-	"scheduler/models"
+	"github.com/joaosoft/scheduler/controllers"
+	"github.com/joaosoft/scheduler/models"
 
 	"github.com/joaosoft/dbr"
 

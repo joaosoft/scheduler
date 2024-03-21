@@ -1,7 +1,7 @@
 package scheduler
 
 import (
-	"scheduler/routes"
+	"github.com/joaosoft/scheduler/routes"
 
 	"github.com/joaosoft/logger"
 	migration "github.com/joaosoft/migration/services"

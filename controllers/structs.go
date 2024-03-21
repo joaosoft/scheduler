@@ -43,7 +43,7 @@ type CreateScheduleRequest struct {
 }
 
 type CreateScheduleBodyRequest struct {
-	IdUser      int         `json:"id_user" validate:"not-empty"`
+	IdUser      string      `json:"id_user" validate:"not-empty"`
 	IdTimezone  int         `json:"id_timezone" validate:"not-empty"`
 	Subject     string      `json:"subject" validate:"not-empty"`
 	Description string      `json:"description"`

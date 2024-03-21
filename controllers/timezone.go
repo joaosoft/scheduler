@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"scheduler/models"
+	"github.com/joaosoft/scheduler/models"
 
 	"github.com/joaosoft/validator"
 	"github.com/joaosoft/web"
